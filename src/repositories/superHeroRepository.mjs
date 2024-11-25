@@ -34,6 +34,40 @@ class superHeroRepository extends iRepository {
             throw error;
         }
     }
+
+    async actualizarSuperheroe(id, datosActualizados) {
+        try {
+            const superheroeActualizado = await superHero.findByIdAndUpdate(id,
+                { $set: datosActualizados },
+                { new: true } // Devuelve el documento actualizado
+            );
+            return superheroeActualizado;
+        } catch (error) {
+            console.error("Error en actualizarSuperheroe:", error.message);
+            throw new Error("No se pudo actualizar el superhéroe en la base de datos");
+        }
+    }
+    
+    async eliminarSuperheroePorId(id) {
+        try {
+            const superheroeEliminado = await superHero.findByIdAndDelete(id);
+            return superheroeEliminado;
+        } catch (error) {
+            console.error("Error en eliminarSuperheroePorId:", error.message);
+            throw new Error("No se pudo eliminar el superhéroe por ID en la base de datos");
+        }
+    }
+    
+    async eliminarSuperheroePorNombre(nombre) {
+        try {
+            const superheroesEliminados = await superHero.deleteMany({ nombreSuperheroe: nombre });
+            return superheroesEliminados;
+        } catch (error) {
+            console.error("Error en eliminarSuperheroePorNombre:", error.message);
+            throw new Error("No se pudo eliminar los superhéroes por nombre en la base de datos");
+        }
+    }
+    
 }
 
 export default new superHeroRepository;
